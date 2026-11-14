@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Study Planner | Home</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="brand">My Study Planner</span>
+    <a href="index.html">Home</a>
+    <a href="taskmanager.html">Task Manager</a>
+    <a href="blog.html">Blog</a>
+    <a href="ethics.html">Ethics</a>
+  </nav>
+
+  <main>
+    <div class="hero">
+      <h1>My Study Planner</h1>
+      <p>A simple web tool that helps university students keep every assignment,
+         revision task and deadline in one place, so nothing important is forgotten.</p>
+    </div>
+
+    <section class="carousel">
+      <h2>Study life in three pictures</h2>
+      <img id="slideImage" src="../images/slide1.jpg" alt="Stationery and vocabulary notes on a desk">
+      <div class="carousel-controls">
+        <button class="btn btn-light" onclick="prevSlide()">Prev</button>
+        <button class="btn" onclick="nextSlide()">Next</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>About the App</h2>
+      <p>University study is not difficult because of one big task, it is difficult because
+         many small tasks arrive at the same time. A quiz, a group report, a lab sheet and a
+         reading task can all fall in the same week, and they are usually written in different
+         places: the learning management system, an email, a chat group, a paper notebook.</p>
+      <p>My Study Planner puts those tasks into one list. For every task the user records the
+         task title, the course code and course name, the due date, a short description and any
+         extra notes. Tasks can be edited when a deadline moves, and deleted when they are
+         finished. The page always shows the current date and time, so the user can see at a
+         glance how many days are left before the next deadline.</p>
+      <p>All task data is stored inside the browser with <code>localStorage</code>. Nothing is
+         sent to a server, which keeps the tool fast, offline friendly and private.</p>
+    </section>
+
+    <section>
+      <h2>About Me</h2>
+      <p>This is my website assignment. I enjoyed learning HTML, CSS and JavaScript while
+         building this simple study planner.</p>
+      <p>I usually plan my study week on Sunday evening. I write down the deadlines of the
+         coming week first, then divide the work into small blocks of about two hours, because
+         long blocks never survive a real timetable. When a week becomes crowded, I put the three
+         most urgent tasks at the top of the list and finish them before touching anything else.</p>
+      <p>Building My Study Planner is also a way for me to practise front-end skills: HTML for
+         structure, CSS for layout and JavaScript for interaction. Writing the code in small
+         steps and testing each function in the browser taught me more than reading about
+         JavaScript, and the two bugs recorded on the blog page were part of that learning.</p>
+    </section>
+
+    <footer>
+      Web Assignment 3.1 &middot; My Study Planner &middot; Ma Jiayue
+    </footer>
+  </main>
+
+  <script src="../js/script.js"></script>
+</body>
+</html>

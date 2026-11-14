@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Study Planner | Task Manager</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="brand">My Study Planner</span>
+    <a href="index.html">Home</a>
+    <a href="taskmanager.html">Task Manager</a>
+    <a href="blog.html">Blog</a>
+    <a href="ethics.html">Ethics</a>
+  </nav>
+
+  <main>
+
+    <!-- ============ LOGIN ============ -->
+    <section id="loginBox">
+      <h2>Sign in</h2>
+      <p class="lead">Student demo account: <strong>student</strong> / <strong>info1012</strong></p>
+
+      <div class="login-box">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button class="btn" onclick="login()">Log in</button>
+      </div>
+      <p id="loginMessage" class="empty"></p>
+    </section>
+
+    <!-- ============ TASK AREA ============ -->
+    <div id="taskArea" style="display:none;">
+
+      <section>
+        <h2 id="formTitle">Add a new study task</h2>
+
+        <div class="form-grid">
+          <div class="field">
+            <label for="taskTitle">Task title *</label>
+            <input type="text" id="taskTitle" placeholder="e.g. Write the weekly blog page">
+          </div>
+          <div class="field">
+            <label for="courseCode">Course code *</label>
+            <input type="text" id="courseCode" placeholder="e.g. WEB1001">
+          </div>
+          <div class="field">
+            <label for="courseName">Course name</label>
+            <input type="text" id="courseName" placeholder="e.g. Web Development">
+          </div>
+          <div class="field">
+            <label for="dueDate">Due date *</label>
+            <input type="date" id="dueDate">
+          </div>
+          <div class="field full">
+            <label for="taskDesc">Task description</label>
+            <textarea id="taskDesc" rows="2" placeholder="What has to be done?"></textarea>
+          </div>
+          <div class="field full">
+            <label for="taskNotes">Additional notes</label>
+            <textarea id="taskNotes" rows="2" placeholder="Any extra information"></textarea>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:12px; margin-top:6px;">
+          <button class="btn" onclick="saveTask()">Save task</button>
+          <button class="btn btn-light" onclick="resetForm()">Clear form</button>
+        </div>
+        <p id="formMessage" class="empty"></p>
+      </section>
+
+      <section>
+        <h2>My tasks</h2>
+        <table class="task-table">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Course</th>
+              <th>Due date</th>
+              <th>Description</th>
+              <th>Notes</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="taskBody"></tbody>
+        </table>
+        <p id="emptyMessage" class="empty">No tasks yet.</p>
+      </section>
+
+    </div>
+
+    <div class="clock-bar">
+      <span>Current date and time</span>
+      <span id="clock"></span>
+    </div>
+
+    <footer>
+      Web Assignment 3.1 &middot; My Study Planner &middot; Ma Jiayue
+    </footer>
+  </main>
+
+  <script src="../js/task.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Study Planner | Ethics and Privacy</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="brand">My Study Planner</span>
+    <a href="index.html">Home</a>
+    <a href="taskmanager.html">Task Manager</a>
+    <a href="blog.html">Blog</a>
+    <a href="ethics.html">Ethics</a>
+  </nav>
+
+  <main>
+
+    <section>
+      <h2>Ethics and privacy reflection</h2>
+      <p>This page explains how My Study Planner handles user data in a way that is legal,
+         ethical and respectful of privacy, and where the limits of the current design are.</p>
+
+      <h3>1. Collecting only the data that is actually needed</h3>
+      <p>For every task the app asks only for the task title, the course code and course name,
+         the due date, a description and optional notes. It never asks for a student number,
+         an email address, a phone number, a password hash or a home address. This follows the
+         principle of data minimisation: if a value is not needed to display a task, it should
+         not be collected at all. A study planner does not need to know who the user's family
+         is or where the user lives in order to work.</p>
+
+      <h3>2. Data stays in the browser, not on a server</h3>
+      <p>Task data is written into the browser's <code>localStorage</code> and is never sent
+         through a network request. There is no database and no analytics script on the page,
+         so no third party can read the list of assignments. The practical consequence is that
+         a student's study pattern, including how much work they are behind, stays on their own
+         device. This is also the ethical limit: if the device is shared, another person using
+         the same browser profile can see the stored tasks, which is discussed in section 5.</p>
+
+      <h3>3. Access control and input validation protect the user</h3>
+      <p>The task area is hidden until the user signs in, so the list is not visible to someone
+         who simply opens the page. Passwords and empty fields are rejected with a clear
+         message instead of an error page. Every value that the user types is cleaned before it
+         is placed into the table, so a task title containing HTML tags is shown as text
+         rather than executed. Without this check, a value typed by one person could change
+         the layout of the page or run script in another person's session, which is the mild
+         form of a cross-site scripting problem.</p>
+
+      <h3>4. Deleting data is an explicit user decision</h3>
+      <p>Deleting a task always asks for confirmation first, because deletion cannot be undone.
+         The interface never removes user data on its own, and it never rewrites a task without
+         the user pressing save. This respects the idea that the owner of the data, not the
+         software, should decide when information disappears.</p>
+
+      <h3>5. Known limitations and how they would be fixed</h3>
+      <p>The login is a demonstration only: the username and password are written in the
+         JavaScript file, so anyone who opens the developer tools can read them. The stored data
+         is also not encrypted. For a real product three changes would be required: real
+         authentication on a server, encryption of stored records, and a clear privacy notice
+         telling students what is stored and how to delete it. Being honest about these limits
+         is part of ethical design, because a tool that pretends to be secure is more dangerous
+         than one that says where it is weak.</p>
+
+      <h3>6. Why this matters in web development</h3>
+      <p>Web applications collect data quietly, through forms, logs and cookies, and users
+         rarely see where it goes. Developers therefore decide, usually without any discussion,
+         how much of a person's life is recorded. Ethical practice means asking three questions
+         before adding a field: is this value necessary, who can read it, and how long is it
+         kept. A study planner only needs to help a student remember a deadline; anything
+         beyond that is a risk taken on someone else's behalf.</p>
+    </section>
+
+    <footer>
+      Web Assignment 3.1 &middot; My Study Planner &middot; Ma Jiayue
+    </footer>
+  </main>
+
+</body>
+</html>

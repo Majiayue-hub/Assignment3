@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Study Planner | Development Blog</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="brand">My Study Planner</span>
+    <a href="index.html">Home</a>
+    <a href="taskmanager.html">Task Manager</a>
+    <a href="blog.html">Blog</a>
+    <a href="ethics.html">Ethics</a>
+  </nav>
+
+  <main>
+
+    <section>
+      <h2>Project plan: three Agile sprints</h2>
+      <p>The project was developed in three one-week sprints. Each sprint followed the Agile
+         phases of planning, analysis, design, implementation, testing and maintenance. The
+         table below records what was planned, what was delivered and what problems appeared
+         in each sprint.</p>
+
+      <table class="plan">
+        <thead>
+          <tr>
+            <th style="width:110px;">Sprint</th>
+            <th>Phase / tasks</th>
+            <th>Delivered in this sprint</th>
+            <th>Sprint review</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sprint 1</strong><br>Week 1</td>
+            <td>Planning and analysis: read the assignment brief, list every required page and
+                function, sketch the file structure, collect three study images.</td>
+            <td>Folder structure, four empty HTML pages, shared navigation bar, base
+                stylesheet.</td>
+            <td>Structure was clear, but the four pages had no shared style at first and looked
+                inconsistent. Fixed by moving all colours and spacing into
+                <code>style.css</code>.</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 2</strong><br>Week 2</td>
+            <td>Design and implementation: build the home page carousel, the login form and the
+                task form with all required fields.</td>
+            <td>Working carousel, login that blocks wrong credentials, task form with title,
+                course code, course name, due date, description and notes.</td>
+            <td>Two bugs were found in this sprint: HTML written inside a task title broke the
+                table, and the date calculation produced a decimal number of days. Both are
+                documented below.</td>
+          </tr>
+          <tr>
+            <td><strong>Sprint 3</strong><br>Week 3</td>
+            <td>Implementation and testing: add edit and delete, store data in
+                <code>localStorage</code>, add validation messages and the live clock, then
+                test every page in Chrome.</td>
+            <td>Full CRUD, validation for required fields and dates, delete confirmation,
+                live clock, README document and final screenshots.</td>
+            <td>All assignment requirements were checked against the marking sheet; the
+                remaining work is to commit the project to GitHub in several steps.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Troubleshooting log</h2>
+      <p>Two problems that appeared while building the task manager, with the failing code,
+         the investigation, and the corrected code.</p>
+
+      <div class="bug-card">
+        <h3>Bug 1 &middot; A task title containing HTML tags broke the whole table</h3>
+        <p class="meta">Found: 8 November 2026, 21:40 &nbsp;|&nbsp; Fixed: 8 November 2026, 22:25</p>
+
+        <p>While testing the add-task function I typed the title
+           <code>&lt;b&gt;Coursework&lt;/b&gt; blog page</code> to see whether special characters
+           were handled. The row was created, but the bold tag was executed as real HTML: the title appeared in
+           bold, wrapped onto two lines and no longer matched the typography of the other rows.
+           A script tag typed into the same field would have run as well.</p>
+
+        <p><strong>Error screenshot</strong></p>
+        <img src="../images/bug1-before.jpg" alt="Table broken by HTML tags in a task title">
+
+        <p><strong>Code that caused the problem</strong> (the value was inserted into the row
+           with <code>innerHTML</code>, so the browser parsed it as markup):</p>
+<pre>row.innerHTML =
+  "&lt;td&gt;&lt;strong&gt;" + task.title + "&lt;/strong&gt;" +
+  daysLeft(task.due) + "&lt;/td&gt;";</pre>
+
+        <p><strong>Investigation</strong>: I compared the row with a normal task and saw that
+           only the row with angle brackets was broken, so the problem was in the way the string
+           was inserted, not in the data itself. I checked the MDN page on
+           <code>innerHTML</code> and on the
+           <code>Element.textContent</code> property, which confirmed that
+           <code>innerHTML</code> parses markup while text should be escaped.</p>
+
+        <p><strong>Corrected code</strong>: every user value now goes through an escaping
+           function before it is placed into the row:</p>
+<pre>function escapeHtml(text) {
+  if (!text) return "";
+  return text
+    .replace(/&amp;/g, "&amp;amp;")
+    .replace(/&lt;/g, "&amp;lt;")
+    .replace(/&gt;/g, "&amp;gt;");
+}
+
+row.innerHTML =
+  "&lt;td&gt;&lt;strong&gt;" + escapeHtml(task.title) +
+  "&lt;/strong&gt;" + daysLeft(task.due) + "&lt;/td&gt;";</pre>
+
+        <p><strong>Result after the fix</strong>: the same title is now displayed as plain
+           text, the table keeps its width and no markup is executed.</p>
+        <img src="../images/bug1-after.jpg" alt="Same title displayed safely as text">
+      </div>
+
+      <div class="bug-card">
+        <h3>Bug 2 &middot; The "days left" label showed a decimal number</h3>
+        <p class="meta">Found: 9 November 2026, 10:15 &nbsp;|&nbsp; Fixed: 9 November 2026, 10:50</p>
+
+        <p>The label under a task title should say how many days remain before the deadline.
+           In testing it showed <code>0.3852147337962963 days left</code>, which is unreadable
+           and looks like broken output on a page that is otherwise finished.</p>
+
+        <p><strong>Error screenshot</strong></p>
+        <img src="../images/bug2-before.jpg" alt="Days left label showing a decimal number">
+
+        <p><strong>Code that caused the problem</strong> (two dates were subtracted without
+           rounding, and the current time of day was included in the result):</p>
+<pre>const diff = (new Date(task.due) - new Date()) / 86400000;
+return "&lt;span class='tag'&gt;" + diff + " days left&lt;/span&gt;";</pre>
+
+        <p><strong>Investigation</strong>: subtracting two dates returns milliseconds, and
+           because <code>new Date()</code> contains the current hour and minute, the division
+           never gives a whole number. I read the MDN pages on
+           <code>Date</code> and <code>Math.round</code> and decided to remove the time part
+           from both dates before subtracting.</p>
+
+        <p><strong>Corrected code</strong>:</p>
+<pre>function daysLeft(due) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(due);
+  const diff = Math.round((target - today) / 86400000);
+
+  if (diff === 0) return "&lt;span class='tag'&gt;Due today&lt;/span&gt;";
+  if (diff === 1) return "&lt;span class='tag'&gt;1 day left&lt;/span&gt;";
+  return "&lt;span class='tag'&gt;" + diff + " days left&lt;/span&gt;";
+}</pre>
+
+        <p><strong>Result after the fix</strong>: the label now reads
+           <code>1 day left</code>, and the same date always produces the same number
+           regardless of the time of day the page is opened.</p>
+        <img src="../images/bug2-after.jpg" alt="Days left label showing a whole number">
+      </div>
+    </section>
+
+    <footer>
+      Web Assignment 3.1 &middot; My Study Planner &middot; Ma Jiayue
+    </footer>
+  </main>
+
+</body>
+</html>
